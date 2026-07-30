@@ -1,0 +1,10 @@
+{
+    "id": "attackslib",
+    "version": "1.0.0",
+    "engineVersion": "0.10.0",
+	"authors": [
+		"AcousticJamm",
+		"HyperBoid",
+		"SuperOfSrb2"
+	]
+}

@@ -1,0 +1,72 @@
+---@class dustpile : Event
+---
+---@field not_solid_on_use  boolean     *[property `not_solid_on_use`]* If this dust pile remains solid after being interacted with.
+---
+---@field cutscene      string  *[Property `cutscene`]* The name of a cutscene to start when interacted with.
+---
+---@overload fun(...) : dustpile
+local dustpile, super = Class(Event)
+
+function dustpile:init(data)
+    super.init(self, data.x, data.y, 126, 92)
+    properties = data.properties or {}
+    self:setOrigin(0.5, 0.5)
+    self.dust = Assets.getFramesOrTexture("npcs/dw/dustpile_parts")
+    self.siner = 0
+    self.mytime = 0
+    self.r = 30
+    self.collider = Hitbox(self,0,63,126,32)
+    self.not_solid_on_use = properties["not_solid_on_use"] or false
+    self.cutscene = properties["cutscene"] or "none"
+end
+
+function dustpile:postLoad()
+    if self.not_solid_on_use == true and self:getFlag("bust") == true then
+        self.solid = false
+    else
+        self.solid = true
+    end
+end
+
+function dustpile:draw()
+    super.draw(self)
+    Draw.draw(self.dust[4], 0, 0, 0, 2, 2)
+    if self:getFlag("bust", false) == false then
+        Draw.draw(self.dust[1], math.sin(self.siner / 5), math.sin(self.siner / 5), 0, 2, 2)
+        Draw.draw(self.dust[2], math.cos(self.siner / 5), math.sin(self.siner / 5), 0, 2, 2)
+        Draw.draw(self.dust[3], -math.sin(self.siner / 5), math.sin(self.siner / 5), 0, 2, 2)
+    end
+end
+
+function dustpile:update()
+    super.update(self)
+    self.siner = MathUtils.wrap(self.siner + .5 * DTMULT,0, 60)
+    if self:getFlag("bust", false) == false then
+        self.mytime = self.mytime + (1 * DTMULT)
+        if self.mytime >= self.r then
+            Game.world:spawnObject(Registry.createLegacyEvent("dustball", {x = self.x, y = self.y, properties = {}}))
+            self.r = MathUtils.random(300, 60)
+            self.mytime = 0
+        end
+    end
+end
+
+function dustpile:onInteract(chara, dir)
+    if self:getFlag("bust", false) == false then
+        self:setFlag("bust", true)
+        if self.not_solid_on_use == true then
+            self.solid = false
+        end
+        Assets.playSound("cough")
+        Game.world:shakeCamera()
+        for i = 1, 13 do
+            Game.world:spawnObject(Registry.createLegacyEvent("dustball_pilebreak", {x = self.x + TableUtils.pick({20,-20}) + (i * TableUtils.pick({6, -6})), y = self.y + 20 + math.random(25), properties = {pilebreak = true}}))
+        end
+        if self.cutscene ~= "none" then
+            Game.world:startCutscene(self.cutscene)
+        end
+    end
+    return true
+end
+
+return dustpile

@@ -1,0 +1,105 @@
+local Registry, super = Class("Registry", true)
+local self = Registry
+
+Registry.paths = {
+    ["actors"]           = "data/actors",
+    ["globals"]          = "globals",
+    ["hooks"]            = "hooks",
+    ["objects"]          = "objects",
+    ["drawfx"]           = "drawfx",
+    ["items"]            = "data/items",
+    ["spells"]           = "data/spells",
+    ["attacks"]          = "data/attacks",
+    ["party_members"]    = "data/party",
+    ["recruits"]         = "data/recruits",
+    ["encounters"]       = "battle/encounters",
+    ["enemies"]          = "battle/enemies",
+    ["waves"]            = "battle/waves",
+    ["bullets"]          = "battle/bullets",
+    ["world_bullets"]    = "world/bullets",
+    ["world_cutscenes"]  = "world/cutscenes",
+    ["battle_cutscenes"] = "battle/cutscenes",
+    ["legend_cutscenes"] = "legends/",
+    ["event_scripts"]    = "world/scripts",
+    ["tilesets"]         = "world/tilesets",
+    ["maps"]             = "world/maps",
+    ["events"]           = "world/events",
+    ["controllers"]      = "world/controllers",
+    ["shops"]            = "shops",
+    ["borders"]          = "borders",
+}
+
+---@param preload boolean?
+function Registry.initialize(preload)
+    if not self.preload then
+        self.base_scripts = {}
+
+        local chapter = Kristal.getModOption("chapter") or 2
+        Game.chapter = chapter
+
+        for _,path in ipairs(Utils.getFilesRecursive("data", ".lua")) do
+            local chunk = love.filesystem.load("data/"..path..".lua")
+            self.base_scripts["data/"..path] = chunk
+        end
+
+        Registry.initActors()
+    end
+    if not preload then
+        Registry.initGlobals()
+        Registry.initObjects()
+        Registry.initDrawFX()
+        Registry.initItems()
+        Registry.initSpells()
+        Registry.initAttacks()
+        Registry.initPartyMembers()
+        Registry.initRecruits()
+        Registry.initEncounters()
+        Registry.initEnemies()
+        Registry.initWaves()
+        Registry.initBullets()
+        Registry.initCutscenes()
+        Registry.initEventScripts()
+        Registry.initTilesets()
+        Registry.initMaps()
+        Registry.initEvents()
+        Registry.initControllers()
+        Registry.initShops()
+        Registry.initBorders()
+
+        Kristal.callEvent(KRISTAL_EVENT.onRegistered)
+    end
+
+    self.preload = preload
+
+    Hotswapper.updateFiles("registry")
+end
+
+function Registry.getAttack(id)
+    return self.attacks[id]
+end
+
+function Registry.createAttack(id, ...)
+    if self.attacks[id] then
+        return self.attacks[id](...)
+    else
+        error("Attempt to create non existent attack \"" .. tostring(id) .. "\"")
+    end
+end
+
+function Registry.registerAttack(id, class)
+    self.attacks[id] = class
+end
+
+function Registry.initAttacks()
+    self.attacks = {}
+
+    for _,path,attack in self.iterScripts(Registry.paths["attacks"]) do
+        assert(attack ~= nil, '"attacks/'..path..'.lua" does not return value')
+        attack.id = attack.id or path
+        self.registerAttack(attack.id, attack)
+    end
+
+    Kristal.callEvent(KRISTAL_EVENT.onRegisterAttacks)
+end
+
+return Registry
