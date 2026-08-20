@@ -3,12 +3,12 @@
 local BattleSelectionBox, super = Class(Object)
 
 function BattleSelectionBox:init(x, y)
-    super.init(self, 70 + x, -100 + y)
+    super.init(self, 32 + x, -100 + y)
 
     self.selection_siner = 0
 
     self.xoffset = x
-    self.yoffset = y 
+    self.yoffset = y
     self.layer = -9999999999
     self.ui = nil
 
@@ -38,10 +38,10 @@ function BattleSelectionBox:draw()
     if (Game.battle.current_selecting == 1) or (Game.battle.current_selecting == 2) or (Game.battle.current_selecting == 3) then
         local nuts = Game.battle.current_selecting
         Draw.setColor({0, 0, 0})
-        love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH - 140 + 40, 140)
+        love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH - 140 + 45 + 32, 140)
         Draw.setColor(Game.battle.party[nuts].chara:getColor())
         love.graphics.setLineWidth(3)
-        love.graphics.rectangle("line", 0, 0, SCREEN_WIDTH - 140 + 40, 140)
+        love.graphics.rectangle("line", 0, 0, SCREEN_WIDTH - 140 + 45 + 32, 140)
         love.graphics.line(110, 0, 110, 140)
 
         local oneoff = 0

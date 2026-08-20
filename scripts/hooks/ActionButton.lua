@@ -227,12 +227,14 @@ function ActionButton:hasSpecial()
 end
 
 function ActionButton:draw()
+    self.hovered_texttexture = Assets.getTexture("ui/battle/btn/txt_" .. self.type .. "_h")
+    self.texttexture = Assets.getTexture("ui/battle/btn/txt_" .. self.type)
     if self.selectable and self.hovered then
         if (Game.battle.state == "ACTIONSELECT") then
-            --Draw.draw(self.hovered_texttexture, 20-self.x, 1500-self.y)
+            Draw.draw(self.hovered_texttexture, 20-self.x, 139-self.y)
             Draw.draw(self.hovered_texture or self.texture)
         else
-            --Draw.draw(self.hovered_texttexture, 20-self.x, 139-self.y)
+            Draw.draw(self.hovered_texttexture, 20-self.x, 139-self.y)
         end
     else
         if (Game.battle.state == "ACTIONSELECT") then

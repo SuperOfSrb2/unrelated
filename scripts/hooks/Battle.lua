@@ -34,7 +34,7 @@ function Battle:postInit(state, encounter)
     self.battle_ui = BattleUI()
     self:addChild(self.battle_ui)
 
-    self.tension_bar = TensionBar(-25, 120, true)
+    self.tension_bar = TensionBar(-25, 160, true)
     self.tension_bar.layer = 100
     self:addChild(self.tension_bar)
 
