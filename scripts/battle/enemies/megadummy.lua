@@ -44,7 +44,9 @@ function MegaDummy:init()
     self.low_health_text = "* The dummy looks like it's\nabout to fall over."
 
     -- Register act called "Smile"
-    self:registerAct("Smile")
+    self:registerActFor("empty", "Smile")
+    self:registerActFor("wolfye", "Punch")
+    self:registerActFor("harriet", "Poke")
     -- Register party act with Ralsei called "Tell Story"
     -- (second argument is description, usually empty)
     self:registerAct("Tell Story", "", {"ralsei"})

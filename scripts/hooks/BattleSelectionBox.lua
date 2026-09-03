@@ -30,6 +30,7 @@ function BattleSelectionBox:init(x, y)
     self.shown = false
 
     self.begun = false
+    self.lastselected = {}
 
     self:createButtons()
 end
@@ -45,7 +46,7 @@ function BattleSelectionBox:draw()
         love.graphics.line(110, 0, 110, 140)
 
         local oneoff = 0
-        local twooff = 0
+        local twooff = 38
         if Game.battle.state == "ACTIONSELECT" then
             oneoff = -113
             twooff = -427
@@ -79,6 +80,15 @@ end
 
 function BattleSelectionBox:select()
     self.buttons[self.selected_button]:select()
+    self.lastselected[#self.lastselected + 1] = self.selected_button
+    self.selected_button = 1
+end
+
+function BattleSelectionBox:cancel()
+    if #self.lastselected ~= 0 then
+        self.selected_button = self.lastselected[#self.lastselected]
+        table.remove(self.lastselected, #self.lastselected)
+    end
 end
 
 function BattleSelectionBox:createButtons()
@@ -195,12 +205,18 @@ function BattleSelectionBox:update()
             end
         end
 
-        self.y = lower + self.animation_y - self.ui.y - 45        
+        self.y = lower + self.animation_y - self.ui.y - 45  
     end
 
     if (Game.battle.state ~= "INTRO") and (Game.battle.state ~= "TRANSITION") and (self.begun ~= true) then
         self.begun = true
         self:transitionIn()
+    end
+
+    if (Game.battle.state == "ACTIONSELECT") then
+        if Input.pressed("cancel") then
+            self:cancel()
+        end
     end
 
     if (Game.battle.state == "DEFENDING") or (Game.battle.state == "ENEMYDIALOGUE") or (Game.battle.state == "DIALOGUEEND") or (Game.battle.state == "TRANSITIONOUT") or (Game.battle.state == "DEFENDINGBEGIN") or (Game.battle.state == "VICTORY") or (Game.battle.state == "DEFENDINGEND") or (Game.battle.state == "ATTACKING") or (Game.battle.state == "ACTIONSDONE") and (self.begun == true) then

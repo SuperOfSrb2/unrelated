@@ -9,7 +9,7 @@ function BattleUI:init()
 
     self.current_encounter_text = Game.battle.encounter.text
 
-    self.xbox_offset = 165
+    self.xbox_offset = 165 - 40
     self.ybox_offset = -485
     self.boxcondense_offset = -64
 
