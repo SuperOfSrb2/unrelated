@@ -688,7 +688,8 @@ function BattleUI:drawBattleBar(open)
     Draw.setColor({1, 1, 1, self.battlebarwidth*alphamult})
     Draw.draw(Assets.getTexture("ui/battle/attackbarfull"), 0 - self.selection_box.x + SCREEN_WIDTH/2, -265 - self.selection_box.y, 0, self.battlebarwidth, 1, 510/2)
     for _,enemy in ipairs(Game.battle:getActiveEnemies()) do
-        local enemycenter = SCREEN_WIDTH/2 - enemy.x + 86 - self.selection_box.x
+        local enemycenter = SCREEN_WIDTH/2 - enemy.x + enemy.width - 5 - self.selection_box.x
+        enemy.enemycenter = enemycenter
         local dir = -1
         Draw.setColor({1, 1, 1, self.battlebarwidth*alphamult - alphamulten}) --Just ignore all this dumbass code btw
         Draw.draw(Assets.getTexture("ui/battle/attackreticle"), 0 - self.selection_box.x + SCREEN_WIDTH/2 + dir*self.battlebarwidth*enemycenter - enemy.width*self.battlebarwidth + (enemy.width/1)*self.battlebarwidth + 17*self.battlebarwidth, -262 - self.selection_box.y, 0, 1, 1, 36/2)
