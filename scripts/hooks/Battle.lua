@@ -452,6 +452,12 @@ function Battle:updateAttacking()
             end
         end
 
+        for _, attack in ipairs(self.battle_ui.attack_boxes) do
+            
+            print(attack:getClose())
+        end
+        
+
         local all_done = true
         for _, attack in ipairs(self.battle_ui.attack_boxes) do
             if not attack.attacked and attack.fade_rect.alpha < 1 then
