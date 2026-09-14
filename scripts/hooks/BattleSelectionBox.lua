@@ -138,6 +138,7 @@ function BattleSelectionBox:createButtons()
             self:addChild(btn)
         end
     end
+    print(#btn_types)
 
     self.selected_button = Utils.clamp(self.selected_button, 1 - 4, 8 + 4)
 end
