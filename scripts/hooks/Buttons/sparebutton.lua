@@ -13,6 +13,10 @@ function SpareButton:getTexture()
     return Assets.getTexture("ui/battle/btn/spare")
 end
 
+function ActButton:getTextTexture()
+    return Assets.getTexture("ui/battle/btn/spare_b")
+end
+
 function SpareButton:getHoveredTexture()
     return Assets.getTexture("ui/battle/btn/spare_h")
 end

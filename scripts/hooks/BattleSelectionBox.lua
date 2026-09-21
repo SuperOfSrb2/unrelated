@@ -114,31 +114,51 @@ function BattleSelectionBox:createButtons()
         start_x = start_x - 5.5
     end
 
-    for i,btn in ipairs(btn_types) do
-        if type(btn) == "string" then
-            local j = 0
-            local h = 0
-            if i > 4 then
-                j = i - 5
-                h = 1
-            else
-                j = i - 1 
-            end
-            local button = ActionButton(btn, self.battler, 30 + h*48, 16 + (j)*31)
+    for i, button in ipairs(btn_types) do
+        if not Game.battle:hasActionButton(button) then
+            Game.battle:registerActionButton("fight", function(battler, x, y) return FightButton(battler, x, y) end)
+            Game.battle:registerActionButton("act", function(battler, x, y) return ActButton(battler, x, y) end)
+            Game.battle:registerActionButton("magic", function(battler, x, y) return MagicButton(battler, x, y) end)
+            Game.battle:registerActionButton("item", function(battler, x, y) return ItemButton(battler, x, y) end)
+            Game.battle:registerActionButton("defend", function(battler, x, y) return DefendButton(battler, x, y) end)
+            Game.battle:registerActionButton("spare", function(battler, x, y) return SpareButton(battler, x, y) end)
+            Game.battle:registerActionButton("recruit", function(battler, x, y) return SpareButton(battler, x, y) end)
+            Game.battle:registerActionButton("tactic", function(battler, x, y) return SpareButton(battler, x, y) end)
+        end
+        local button_x = math.floor(start_x + ((i - 1) * 35)) + 0.5
+        local button_y = 21
+        local j = 0
+        local h = 0
+        if i > 4 then
+            j = i - 5
+            h = 1
+        else
+            j = i - 1 
+        end
+
+        if type(button) == "string" then
+            -- It's a string, we should create this
+            local new_button = Game.battle:createActionButton(button, self.battler, 30 + h*48, 16 + (j)*31)
+            table.insert(self.buttons, new_button)
+            new_button.posx = 0 + h*48
+            new_button.offset = 0
+            new_button.actbox = self
+            self:addChild(new_button)
+        elseif isClass(button) and button:includes(ActionButton) then
+            -- We're passing in an ActionButton instance, so...
+            button:setPosition(button_x, button_y)
+            button:setPartyBattler(self.battler)
+            table.insert(self.buttons, button)
             button.posx = 0 + h*48
             button.offset = 0
             button.actbox = self
-            table.insert(self.buttons, button)
             self:addChild(button)
-        elseif type(btn) ~= "boolean" then -- nothing if a boolean value, used to create an empty space
-            btn:setPosition(math.floor(start_x + ((i - 1) * 35)) + 0.5, -99)
-            btn.battler = self.battler
-            btn.actbox = self
-            table.insert(self.buttons, btn)
-            self:addChild(btn)
+        elseif type(button) == "boolean" then
+            -- Nothing, just an empty space
+        else
+            Logging.warnNotify("Attempted to create invalid action button: ", button)
         end
     end
-    print(#btn_types)
 
     self.selected_button = Utils.clamp(self.selected_button, 1 - 4, 8 + 4)
 end

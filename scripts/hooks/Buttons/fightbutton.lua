@@ -1,6 +1,6 @@
 ---@class FightButton : ActionButton
 ---@overload fun(...) : FightButton
-local FightButton, super = Class(ActionButton)
+local FightButton, super = Class("FightButton", true)
 
 ---@param battler PartyBattler
 ---@param x number
@@ -12,6 +12,11 @@ end
 function FightButton:getTexture()
     return Assets.getTexture("ui/battle/btn/fight")
 end
+
+function ActButton:getTextTexture()
+    return Assets.getTexture("ui/battle/btn/fight_b")
+end
+
 
 function FightButton:getHoveredTexture()
     return Assets.getTexture("ui/battle/btn/fight_h")

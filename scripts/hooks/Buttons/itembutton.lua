@@ -13,6 +13,11 @@ function ItemButton:getTexture()
     return Assets.getTexture("ui/battle/btn/item")
 end
 
+function ActButton:getTextTexture()
+    return Assets.getTexture("ui/battle/btn/item_b")
+end
+
+
 function ItemButton:getHoveredTexture()
     return Assets.getTexture("ui/battle/btn/item_h")
 end

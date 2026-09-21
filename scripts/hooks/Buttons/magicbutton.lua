@@ -13,6 +13,10 @@ function MagicButton:getTexture()
     return Assets.getTexture("ui/battle/btn/magic")
 end
 
+function ActButton:getTextTexture()
+    return Assets.getTexture("ui/battle/btn/magic_b")
+end
+
 function MagicButton:getHoveredTexture()
     return Assets.getTexture("ui/battle/btn/magic_h")
 end

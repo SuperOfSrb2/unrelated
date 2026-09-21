@@ -13,6 +13,10 @@ function DefendButton:getTexture()
     return Assets.getTexture("ui/battle/btn/defend")
 end
 
+function ActButton:getTextTexture()
+    return Assets.getTexture("ui/battle/btn/defend_b")
+end
+
 function DefendButton:getHoveredTexture()
     return Assets.getTexture("ui/battle/btn/defend_h")
 end
