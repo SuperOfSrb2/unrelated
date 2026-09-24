@@ -10,28 +10,28 @@ function TacticButton:init(battler, x, y)
 end
 
 function TacticButton:getTexture()
-    return Assets.getTexture("ui/battle/btn/Tactic")
+    return Assets.getTexture("ui/battle/btn/tactic")
 end
 
 function TacticButton:getTextTexture()
-    return Assets.getTexture("ui/battle/btn/Tactic_b")
+    return Assets.getTexture("ui/battle/btn/tactic_b")
 end
 
 
 function TacticButton:getHoveredTexture()
-    return Assets.getTexture("ui/battle/btn/Tactic_h")
+    return Assets.getTexture("ui/battle/btn/tactic_h")
 end
 
 function TacticButton:getSpecialTexture()
-    return Assets.getTexture("ui/battle/btn/Tactic_a")
+    return Assets.getTexture("ui/battle/btn/tactic_a")
 end
 
 function TacticButton:getDisabledTexture()
-    return Assets.getTexture("ui/battle/btn/Tactic_d")
+    return Assets.getTexture("ui/battle/btn/tactic_d")
 end
 
 function TacticButton:select()
-    Game.battle:setState("ENEMYSELECT", "Tactic")
+    Game.battle:setState("ENEMYSELECT", "TACTIC")
 end
 
 return TacticButton

@@ -2,6 +2,9 @@
 ---@overload fun(...) : BattleSelectionBox
 local BattleSelectionBox, super = Class(Object)
 
+TacticButton = require("mods.unrelated.scripts.battle.ui.buttons.tacticbutton")
+RecruitButton = require("mods.unrelated.scripts.battle.ui.buttons.recruitbutton")
+
 function BattleSelectionBox:init(x, y)
     super.init(self, 32 + x, -100 + y)
 
@@ -122,8 +125,8 @@ function BattleSelectionBox:createButtons()
             Game.battle:registerActionButton("item", function(battler, x, y) return ItemButton(battler, x, y) end)
             Game.battle:registerActionButton("defend", function(battler, x, y) return DefendButton(battler, x, y) end)
             Game.battle:registerActionButton("spare", function(battler, x, y) return SpareButton(battler, x, y) end)
-            Game.battle:registerActionButton("recruit", function(battler, x, y) return SpareButton(battler, x, y) end)
-            Game.battle:registerActionButton("tactic", function(battler, x, y) return SpareButton(battler, x, y) end)
+            Game.battle:registerActionButton("recruit", function(battler, x, y) return RecruitButton(battler, x, y) end)
+            Game.battle:registerActionButton("tactic", function(battler, x, y) return TacticButton(battler, x, y) end)
         end
         local button_x = math.floor(start_x + ((i - 1) * 35)) + 0.5
         local button_y = 21
