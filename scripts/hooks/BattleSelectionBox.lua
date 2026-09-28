@@ -2,8 +2,8 @@
 ---@overload fun(...) : BattleSelectionBox
 local BattleSelectionBox, super = Class(Object)
 
-TacticButton = require("mods.unrelated.scripts.battle.ui.buttons.tacticbutton")
-RecruitButton = require("mods.unrelated.scripts.battle.ui.buttons.recruitbutton")
+--TacticButton = require("mods.unrelated.scripts.battle.ui.buttons.tacticbutton")
+--RecruitButton = require("mods.unrelated.scripts.battle.ui.buttons.recruitbutton")
 
 function BattleSelectionBox:init(x, y)
     super.init(self, 32 + x, -100 + y)
@@ -146,6 +146,7 @@ function BattleSelectionBox:createButtons()
             new_button.posx = 0 + h*48
             new_button.offset = 0
             new_button.actbox = self
+            print("DEBUG - Button value:", new_button, button) 
             self:addChild(new_button)
         elseif isClass(button) and button:includes(ActionButton) then
             -- We're passing in an ActionButton instance, so...

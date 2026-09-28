@@ -1,6 +1,6 @@
----@class TacticButton : TacticionButton
+---@class TacticButton : ActionButton
 ---@overload fun(...) : TacticButton
-local TacticButton, super = Class(TacticionButton)
+local TacticButton, super = Class(ActionButton)
 
 ---@param battler PartyBattler
 ---@param x number
