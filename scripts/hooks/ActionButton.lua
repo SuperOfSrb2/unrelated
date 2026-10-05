@@ -8,13 +8,13 @@
 ---@field hovered boolean # Whether or not this button is currently being hovered
 ---
 ---@overload fun(...) : ActionButton
-local ActionButton, super = Class(Object)
+local ActionButton, super = HookSystem.hookScript(ActionButton)
 
 ---@param battler PartyBattler
 ---@param x number
 ---@param y number
-function ActionButton:init(battler, x, y)
-    super.init(self, x, y, 31, 32)
+function ActionButton:init(...)
+    super.init(self, ...)
 
     self.battler = battler
 
@@ -22,6 +22,10 @@ function ActionButton:init(battler, x, y)
 
     self.hovered = false
     self.disabled = false
+end
+
+function ActionButton:update()
+    self.battler = Game.battle.party[Game.battle.current_selecting]
 end
 
 --- Sets the PartyBattler this button belongs to.
@@ -81,21 +85,27 @@ function ActionButton:isActive()
 end
 
 function ActionButton:draw()
-    if self.disabled then
-        Draw.draw(self:getDisabledTexture())
-    elseif self:isActive() and self.hovered then
-        Draw.draw(self:getHoveredTexture())
-        Draw.draw(self:getTextTexture())
-    else
-        Draw.draw(self:getTexture())
-        if self:isActive() and self:hasSpecial() then
-            local r, g, b, a = self:getDrawColor()
-            Draw.setColor(r, g, b, a * (0.4 + math.sin((Kristal.getTime() * 30) / 6) * 0.4))
-            Draw.draw(self:getSpecialTexture())
+    if Game.battle.state == "ACTIONSELECT" then
+        if self.disabled then
+            Draw.draw(self:getDisabledTexture())
+        elseif self:isActive() and self.hovered then
+            Draw.draw(self:getHoveredTexture())
+            
+        else
+            Draw.draw(self:getTexture())
+            if self:isActive() and self:hasSpecial() then
+                local r, g, b, a = self:getDrawColor()
+                Draw.setColor(r, g, b, a * (0.4 + math.sin((Kristal.getTime() * 30) / 6) * 0.4))
+                Draw.draw(self:getSpecialTexture())
+            end
         end
     end
+    if self:isActive() and self.hovered
+    and Game.battle.state ~= "BATTLETEXT" then
+        Draw.draw(self:getTextTexture(), -self.x + 18, -self.y + 139)
+    end
 
-    super.draw(self)
+    --super.draw(self)
 end
 
 return ActionButton

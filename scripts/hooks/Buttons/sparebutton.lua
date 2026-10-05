@@ -1,6 +1,6 @@
 ---@class SpareButton : ActionButton
 ---@overload fun(...) : SpareButton
-local SpareButton, super = Class(ActionButton)
+local SpareButton, super = HookSystem.hookScript(SpareButton)
 
 ---@param battler PartyBattler
 ---@param x number
@@ -13,7 +13,7 @@ function SpareButton:getTexture()
     return Assets.getTexture("ui/battle/btn/spare")
 end
 
-function ActButton:getTextTexture()
+function SpareButton:getTextTexture()
     return Assets.getTexture("ui/battle/btn/spare_b")
 end
 

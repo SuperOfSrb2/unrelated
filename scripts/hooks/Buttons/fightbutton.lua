@@ -1,6 +1,6 @@
 ---@class FightButton : ActionButton
 ---@overload fun(...) : FightButton
-local FightButton, super = Class("FightButton", true)
+local FightButton, super = HookSystem.hookScript(FightButton)
 
 ---@param battler PartyBattler
 ---@param x number
@@ -13,7 +13,7 @@ function FightButton:getTexture()
     return Assets.getTexture("ui/battle/btn/fight")
 end
 
-function ActButton:getTextTexture()
+function FightButton:getTextTexture()
     return Assets.getTexture("ui/battle/btn/fight_b")
 end
 

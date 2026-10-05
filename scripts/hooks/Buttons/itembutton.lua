@@ -1,6 +1,6 @@
 ---@class ItemButton : ActionButton
 ---@overload fun(...) : ItemButton
-local ItemButton, super = Class(ActionButton)
+local ItemButton, super = HookSystem.hookScript(ItemButton)
 
 ---@param battler PartyBattler
 ---@param x number
@@ -13,7 +13,7 @@ function ItemButton:getTexture()
     return Assets.getTexture("ui/battle/btn/item")
 end
 
-function ActButton:getTextTexture()
+function ItemButton:getTextTexture()
     return Assets.getTexture("ui/battle/btn/item_b")
 end
 

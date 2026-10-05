@@ -1,19 +1,19 @@
 ---@class MagicButton : ActionButton
 ---@overload fun(...) : MagicButton
-local MagicButton, super = Class(ActionButton)
+local MagicButton, super = HookSystem.hookScript(MagicButton)
 
 ---@param battler PartyBattler
 ---@param x number
 ---@param y number
-function MagicButton:init(battler, x, y)
-    super.init(self, battler, x, y)
+function MagicButton:init(...)
+    super.init(self, ...)
 end
 
 function MagicButton:getTexture()
     return Assets.getTexture("ui/battle/btn/magic")
 end
 
-function ActButton:getTextTexture()
+function MagicButton:getTextTexture()
     return Assets.getTexture("ui/battle/btn/magic_b")
 end
 
@@ -27,6 +27,10 @@ end
 
 function MagicButton:getDisabledTexture()
     return Assets.getTexture("ui/battle/btn/magic_d")
+end
+
+function MagicButton:update()
+    self.battler = Game.battle.party[Game.battle.current_selecting]
 end
 
 function MagicButton:select()

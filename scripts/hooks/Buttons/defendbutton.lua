@@ -1,6 +1,6 @@
 ---@class DefendButton : ActionButton
 ---@overload fun(...) : DefendButton
-local DefendButton, super = Class(ActionButton)
+local DefendButton, super = HookSystem.hookScript(DefendButton)
 
 ---@param battler PartyBattler
 ---@param x number
@@ -13,7 +13,7 @@ function DefendButton:getTexture()
     return Assets.getTexture("ui/battle/btn/defend")
 end
 
-function ActButton:getTextTexture()
+function DefendButton:getTextTexture()
     return Assets.getTexture("ui/battle/btn/defend_b")
 end
 

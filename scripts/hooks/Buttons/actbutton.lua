@@ -1,6 +1,6 @@
 ---@class ActButton : ActionButton
 ---@overload fun(...) : ActButton
-local ActButton, super = Class(ActionButton)
+local ActButton, super = HookSystem.hookScript(ActButton)
 
 ---@param battler PartyBattler
 ---@param x number

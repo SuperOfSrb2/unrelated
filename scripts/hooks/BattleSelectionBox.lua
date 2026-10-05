@@ -2,8 +2,8 @@
 ---@overload fun(...) : BattleSelectionBox
 local BattleSelectionBox, super = Class(Object)
 
---TacticButton = require("mods.unrelated.scripts.battle.ui.buttons.tacticbutton")
---RecruitButton = require("mods.unrelated.scripts.battle.ui.buttons.recruitbutton")
+local TacticButton = require("mods.unrelated.scripts.battle.ui.buttons.tacticbutton")
+local RecruitButton = require("mods.unrelated.scripts.battle.ui.buttons.recruitbutton")
 
 function BattleSelectionBox:init(x, y)
     super.init(self, 32 + x, -100 + y)
@@ -84,7 +84,8 @@ end
 function BattleSelectionBox:select()
     self.buttons[self.selected_button]:select()
     self.lastselected[#self.lastselected + 1] = self.selected_button
-    self.selected_button = 1
+    --self.selected_button = 1
+
 end
 
 function BattleSelectionBox:cancel()
@@ -193,6 +194,10 @@ end
 
 function BattleSelectionBox:update()
 
+    if self.last_selecting ~= nil and Game.battle.current_selecting > self.last_selecting then
+        self.selected_button = 1
+    end
+
     if not self.animation_done then
         self.animation_timer = self.animation_timer + DTMULT
 
@@ -255,6 +260,8 @@ function BattleSelectionBox:update()
         button.hovered = (self.selected_button == i)
     end
     self.selection_siner = self.selection_siner + 2 * DTMULT
+
+    self.last_selecting = Game.battle.current_selecting
 
     super.update(self)
 end
