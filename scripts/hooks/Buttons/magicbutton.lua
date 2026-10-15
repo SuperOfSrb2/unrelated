@@ -29,10 +29,6 @@ function MagicButton:getDisabledTexture()
     return Assets.getTexture("ui/battle/btn/magic_d")
 end
 
-function MagicButton:update()
-    self.battler = Game.battle.party[Game.battle.current_selecting]
-end
-
 function MagicButton:select()
     Game.battle:enterSpellMenu(self.battler)
 end

@@ -101,7 +101,7 @@ function ActionButton:draw()
         end
     end
     if self:isActive() and self.hovered
-    and Game.battle.state ~= "BATTLETEXT" then
+    and Game.battle.state == "ACTIONSELECT" then
         Draw.draw(self:getTextTexture(), -self.x + 18, -self.y + 139)
     end
 
