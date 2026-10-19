@@ -427,6 +427,7 @@ function Battle:updateAttacking()
     if self.cancel_attack then
         self:finishAllActions()
         self:setState("ACTIONSDONE")
+        self.reticleprogress = -0.55
         return
     end
     if not self.attack_done then

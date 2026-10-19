@@ -157,6 +157,9 @@ function BattleUI:transitionOut()
 end
 
 function BattleUI:update()
+    if Game.battle.state == "ACTIONSELECT" then
+        self.reticleprogress = -0.55
+    end
     self.encounter_text.y = self.selection_box.y + 7
     if not self.animation_done then
         self.animation_timer = self.animation_timer + DTMULT
