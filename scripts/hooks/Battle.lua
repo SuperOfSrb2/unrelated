@@ -2,6 +2,42 @@
 ---@overload fun(...) : Battle
 local Battle, super = Class("Battle", true)
 
+function Battle:handleAttackingInput(key)
+    if Input.isConfirm(key) then
+        if not self.attack_done and not self.cancel_attack and #self.battle_ui.attack_boxes > 0 then
+            local closest = math.huge
+            local closest_attacks = {}
+
+            for _, attack in ipairs(self.battle_ui.attack_boxes) do
+                if not attack.attacked then
+                    local close = attack:getClose()
+
+                    if close < 100 and close > -100 then
+                        if close == closest then
+                            table.insert(closest_attacks, attack)
+                        elseif close < closest then
+                            closest = close
+                            closest_attacks = { attack }
+                        end
+                    end
+                end
+            end
+
+            for _, attack in ipairs(closest_attacks) do
+                local points = attack:hit()
+
+                local action = self:getActionBy(attack.battler, true)
+                action.points = points
+
+                if self:processAction(action) then
+                    self:finishAction(action)
+                end
+            end
+        end
+    end
+end
+
+
 function Battle:postInit(state, encounter)
     self.state = state
 

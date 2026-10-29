@@ -25,4 +25,36 @@ function AttackBox:getClose()
     return closest_record
 end
 
+function AttackBox:hit()
+    local offset = self:getClose()
+
+    local p = math.abs(offset)
+
+    self.attacked = true
+
+    --self.bolt:burst()
+    --self.bolt.layer = 1
+    --self.bolt.x = self.bolt_target + (offset * AttackBox.BOLTSPEED)
+    --self.bolt:setPosition(self.bolt:getRelativePos(0, 0, self.parent))
+    --self.bolt:setParent(self.parent)
+
+    return offset
+    --[[if p < self.bolt_target_size then
+        self.bolt:setColor(1, 1, 0)
+        self.bolt.burst_speed = 0.2
+        return 150
+    elseif p == 1 then
+        return 120
+    elseif p == 2 then
+        return 110
+    else
+        if p < 15 then
+            self.bolt:setColor(self.battler.chara:getDamageColor())
+        else
+            self.bolt:setColor(self.battler.chara:getColor())
+        end
+        return 100 - (p * 2)
+    end]]
+end
+
 return AttackBox
