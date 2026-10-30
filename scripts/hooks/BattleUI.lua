@@ -677,6 +677,7 @@ function BattleUI:drawBattleBar(open)
             self.battlebarwidth = 1
         end
     else
+        Game.battle.reticleprogress = -0.55
         if self.battlebarwidth > 0 then
             if self.battlebarwidth - 0.07 <= 0 then
                 self.battlebarwidth = 0

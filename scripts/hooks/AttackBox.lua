@@ -25,6 +25,27 @@ function AttackBox:getClose()
     return closest_record
 end
 
+function AttackBox:getClosest()
+    --return MathUtils.round((self.bolt.x - self.bolt_target) / AttackBox.BOLTSPEED)
+    local closest_enemy = Game.battle:getActiveEnemies()[1]
+    local closest_record = 99999999
+    for _,enemy in ipairs(Game.battle:getActiveEnemies()) do
+        local enemycenter = enemy.x - 6--SCREEN_WIDTH/2 - enemy.x + enemy.width - 5 - Game.battle.battle_ui.selection_box.x
+        local reticlex = -Game.battle.battle_ui.selection_box.x + SCREEN_WIDTH/2 - 245 + 510*Game.battle.reticleprogress
+        local dist = math.abs(enemycenter - reticlex)
+        local sparkle = Sprite("effects/criticalswing/sparkle", enemycenter, 160)
+        sparkle:play(4 / 30, true)
+        sparkle:setScale(2)
+        sparkle.layer = BATTLE_LAYERS["above_battlers"]
+        Game.battle:addChild(sparkle)
+        if dist < closest_record then
+            closest_record = dist
+            closest_enemy = enemy
+        end
+    end
+    return closest_enemy
+end
+
 function AttackBox:hit()
     local offset = self:getClose()
 
@@ -38,7 +59,7 @@ function AttackBox:hit()
     --self.bolt:setPosition(self.bolt:getRelativePos(0, 0, self.parent))
     --self.bolt:setParent(self.parent)
 
-    return offset
+    return 100 - offset
     --[[if p < self.bolt_target_size then
         self.bolt:setColor(1, 1, 0)
         self.bolt.burst_speed = 0.2
